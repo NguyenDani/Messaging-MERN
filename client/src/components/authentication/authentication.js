@@ -4,6 +4,8 @@ import { useNavigate  } from 'react-router-dom';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import './styles.css';
+
 const Auth = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -33,7 +35,7 @@ const Auth = () => {
             } catch (error) {
                 toast.error("Wrong login information.");
             }
-        }
+    }
     };
 
     const toggleAuthMode = () => {
@@ -44,12 +46,18 @@ const Auth = () => {
 
     return (
         <div>
-            <h2>{isRegistering ? 'Register' : 'Login'}</h2>
-            <form onSubmit={handleAuth}>
-                <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <button type="submit">{isRegistering ? 'Register' : 'Login'}</button>
-            </form>
+            <div class="card">
+                <h1>{isRegistering ? 'Register' : 'Login'}</h1>
+                <form onSubmit={handleAuth}>
+                    <div class="form-column">
+                        <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <button type="submit">{isRegistering ? 'Register' : 'Login'}</button>
+                    </div>
+                </form>
+
+                <button onClick={toggleAuthMode}>{isRegistering ? 'Login' : 'Register'}</button>
+            </div>
             <ToastContainer
                 position="bottom-center"
                 autoClose={5000}
@@ -63,8 +71,8 @@ const Auth = () => {
                 theme="colored"
                 transition={Bounce}
             />
-            <button onClick={toggleAuthMode}>{isRegistering ? 'Login' : 'Sign Up'}</button>
         </div>
+        
     );
 };
 

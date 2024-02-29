@@ -45,7 +45,7 @@ const Auth = () => {
     };
 
     return (
-        <div>
+        <div class="container">
             <div class="card">
                 <h1>{isRegistering ? 'Register' : 'Login'}</h1>
                 <form onSubmit={handleAuth}>

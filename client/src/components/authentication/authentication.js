@@ -4,7 +4,7 @@ import { useNavigate  } from 'react-router-dom';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import './styles.css';
+import styles from './authentication.module.css';
 
 const Auth = () => {
     const [username, setUsername] = useState('');
@@ -45,11 +45,11 @@ const Auth = () => {
     };
 
     return (
-        <div class="container">
-            <div class="card">
+        <div className={styles.container}>
+            <div className={styles.card}>
                 <h1>{isRegistering ? 'Register' : 'Login'}</h1>
                 <form onSubmit={handleAuth}>
-                    <div class="form-column">
+                    <div className={styles.formcolumn}>
                         <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
                         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                         <button type="submit">{isRegistering ? 'Register' : 'Login'}</button>

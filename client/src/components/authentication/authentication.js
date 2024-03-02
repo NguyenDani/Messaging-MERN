@@ -24,10 +24,7 @@ const Auth = () => {
             try {
                 await axios.post('http://localhost:5001/auth/register', { username, password });
                 toast.success("Account created!");
-                const regRes = await axios.post('http://localhost:5001/auth/login', { username, password });
-                const { token, user } = regRes.data;
-                setUser({ ...user, token });
-                navigate('/chat');
+                toggleAuthMode();
             } catch (error) {
                 toast.error("There was a problem registering please try again.");
             }
@@ -39,7 +36,7 @@ const Auth = () => {
                 toast.success("Login successful!");
                 navigate('/chat');
             } catch (error) {
-                toast.error("Wrong login information.");
+                toast.error("Invalid username or password");
             }
     }
     };

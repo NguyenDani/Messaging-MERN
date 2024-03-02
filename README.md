@@ -1,7 +1,9 @@
 # Messaging-MERN
 
 ## Overview
-
+The Messaging web application that provides users with the ability to log in, search for other users, 
+and engage in real-time chat conversations. Leveraging the MERN (MongoDB, Express.js, React.js, 
+Node.js) stack, the application offers a seamless and responsive user experience.
 
 ## Table of Contents
 - [Installation](#installation)

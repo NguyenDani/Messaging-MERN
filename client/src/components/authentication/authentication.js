@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate  } from 'react-router-dom';
 import { Bounce, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useUser } from '../userContext';
 
 import styles from './authentication.module.css';
 
@@ -11,6 +12,7 @@ const Auth = () => {
     const [password, setPassword] = useState('');
     const [isRegistering, setIsRegistering] = useState(false);
     const navigate = useNavigate();
+    const { setUser } = useUser();
 
     const handleAuth = async (e) => {
         e.preventDefault();
@@ -22,14 +24,18 @@ const Auth = () => {
             try {
                 await axios.post('http://localhost:5001/auth/register', { username, password });
                 toast.success("Account created!");
-                const res = await axios.post('http://localhost:5001/auth/login', { username, password });
+                const regRes = await axios.post('http://localhost:5001/auth/login', { username, password });
+                const { token, user } = regRes.data;
+                setUser({ ...user, token });
                 navigate('/chat');
             } catch (error) {
                 toast.error("There was a problem registering please try again.");
             }
         } else {
             try {
-                const res = await axios.post('http://localhost:5001/auth/login', { username, password });
+                const logRes = await axios.post('http://localhost:5001/auth/login', { username, password });
+                const { token, user } = logRes.data;
+                setUser({ ...user, token });
                 toast.success("Login successful!");
                 navigate('/chat');
             } catch (error) {

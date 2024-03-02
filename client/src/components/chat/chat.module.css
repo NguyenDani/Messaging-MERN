@@ -85,16 +85,33 @@
 .contentLog {
     flex: 1; /* Takes up all available space */
     flex-basis: 80%;
+    margin: 10px 10px 5px 10px;
 }
 
 .contentChat {
     flex: 1; /* Takes up all available space */
-    margin: 10px;
+    margin: 5px 10px 10px 10px;
+    display: flex;
 }
 
-.contentChat input {
-    width: 100%;
-    height: 100%;
-    margin: 0;
+.chatMessage {
+
+}
+
+.chatSender {
+
+}
+
+.contentChat textarea {
     box-sizing: border-box;
+    flex: 1;
+    margin: 0;
+    word-wrap: break-word; /* Allow words to break onto the next line */
+    overflow-y: auto; /* Enable vertical scrolling */
+    resize: none; /* Prevent resizing */
+}
+
+.contentChat button {
+    flex-shrink: 0;
+    margin: 0;
 }

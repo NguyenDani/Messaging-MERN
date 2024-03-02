@@ -2,18 +2,24 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import styles from "./chat.module.css";
+import { useUser } from "../userContext";
 
 const Chat = () => {
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [message, setMessage] = useState("");
   const [chatLogs, setChatLogs] = useState([]);
+  const { currentUser } = useUser();
 
   useEffect(() => {
     fetchUsers();
-    // Fetch chat logs for the selected user
-    // You may need to implement this depending on your backend structure
   }, []);
+
+  useEffect(() => {
+    if(selectedUser) {
+      fetchUsers();
+    }
+  }, [selectedUser]);
 
   const fetchUsers = async () => {
     try {
@@ -24,17 +30,26 @@ const Chat = () => {
     }
   };
 
+  const fetchChatLogs = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5001/messages/${selectedUser}`);
+      setChatLogs(res.data);
+    } catch (error) {
+      console.error("Failed to fetch chat logs");
+    }
+  };
+
   const handleSend = async (e) => {
     e.preventDefault();
     if (!selectedUser || !message) return;
 
     try {
       await axios.post("http://localhost:5001/messages", {
-        sender: "currentUserId", // Replace with actual sender ID
+        sender: currentUser.id,
         receiver: selectedUser,
-        message,
+        content: message,
       });
-      // Update chat logs or fetch chat logs again for the selected user
+      fetchChatLogs();
       setMessage("");
     } catch (error) {
       console.error("Failed to send message");
@@ -42,37 +57,17 @@ const Chat = () => {
   };
 
   return (
-    /*
-        <div>
-            <h2>Chat</h2>
-            <div>
-                <h3>Users</h3>
-                <ul>
-                    {users.map(user => (
-                        <li key={user._id} onClick={() => setSelectedUser(user.username)}>
-                            {user.username}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            {selectedUser && (
-                <div>
-                    <h3>Chatting with {selectedUser}</h3>
-                    {/* Display chat logs here }
-                    <form onSubmit={handleSend}>
-                        <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
-                        <button type="submit">Send</button>
-                    </form>
-                </div>
-            )}
-        </div>
-        */
-
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.containerHeader}>
           <div className={styles.headerSearch}>
-            <input type="text" placeholder="Search user"></input>
+            <input type="text" placeholder="Search user" onChange={(e) => {
+              const query = e.target.value.toLowerCase();
+              const filteredUsers = users.filter(user =>
+                user.username.toLowerCase().includes(query)
+              );
+              setUsers(filteredUsers);
+            }}></input>
           </div>
           <div className={styles.headerTitle}>
             <h2>Header</h2>
@@ -82,6 +77,11 @@ const Chat = () => {
           <div className={styles.mainSidenav}>
             <div className={styles.sidenavHistory}>
               <h3>History</h3>
+              {users.map((user) => (
+                <div key={user._id} onClick={() => setSelectedUser(user._id)}>
+                  {user.username}
+                </div>
+              ))}
             </div>
             <div className={styles.sidenavInfo}>
               <div className={styles.infoContainer}>
@@ -91,11 +91,16 @@ const Chat = () => {
           </div>
           <div className={styles.mainContent}>
             <div className={styles.contentLog}>
-              <h3>Chat log</h3>
+              {chatLogs.map((log, index) => (
+                <div key={index} className={styles.chatMessage}>
+                  <span className={styles.chatSender}>{log.sender.username}:</span> {log.content}
+                </div>
+              ))}
             </div>
-            <div className={styles.contentChat}>
-              <input type="text" placeholder="Message"></input>
-            </div>
+              <form onSubmit={handleSend} className={styles.contentChat}>
+                <textarea type="text" placeholder="Message" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
+                <button type="submit">Send</button>
+              </form>
           </div>
         </div>
       </div>

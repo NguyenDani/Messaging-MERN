@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 import styles from "./chat.module.css";
 import { useUser } from "../userContext";
@@ -10,8 +11,9 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [chatLogs, setChatLogs] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const { token, username } = user;
+  const navigate = useNavigate();
   const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
@@ -61,7 +63,7 @@ const Chat = () => {
     }
   };
 
-  // Search User function
+  // Search User
   useEffect(() => {
     const filteredUsers = users.filter(user =>
       user.username.toLowerCase().startsWith(searchText.toLowerCase())
@@ -72,6 +74,13 @@ const Chat = () => {
   const handleUserSelect = (userId) => {
     setSelectedUser(userId);
     fetchChatLogs();
+  };
+
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setUser({ token: null, username: null });
+    navigate('/');
   };
 
   return (
@@ -113,7 +122,7 @@ const Chat = () => {
               <div className={styles.infoContainer}>
                 <h1>Account</h1>
                 <h2>{username ? username : "No user logged in"}</h2>
-                <button>Logout</button>
+                <button onClick={handleLogout}>Logout</button>
               </div>
             </div>
           </div>

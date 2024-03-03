@@ -30,9 +30,9 @@ const Auth = () => {
             }
         } else {
             try {
-                const logRes = await axios.post('http://localhost:5001/auth/login', { username, password });
-                const { token, user } = logRes.data;
-                setUser({ ...user, token });
+                const res = await axios.post('http://localhost:5001/auth/login', { username, password });
+                const { token, user } = res.data;
+                setUser({ token, ...user });
                 toast.success("Login successful!");
                 navigate('/chat');
             } catch (error) {

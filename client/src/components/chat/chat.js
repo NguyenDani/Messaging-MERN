@@ -10,7 +10,8 @@ const Chat = () => {
   const [message, setMessage] = useState("");
   const [chatLogs, setChatLogs] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const { currentUser } = useUser();
+  const { user } = useUser();
+  const { token, username } = user;
   const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const Chat = () => {
 
     try {
       await axios.post("http://localhost:5001/messages", {
-        sender: currentUser.id,
+        sender: user.id,
         receiver: selectedUser,
         content: message,
       });
@@ -110,7 +111,9 @@ const Chat = () => {
             </div>
             <div className={styles.sidenavInfo}>
               <div className={styles.infoContainer}>
-                <h3>Account name</h3>
+                <h1>Account</h1>
+                <h2>{username ? username : "No user logged in"}</h2>
+                <button>Logout</button>
               </div>
             </div>
           </div>

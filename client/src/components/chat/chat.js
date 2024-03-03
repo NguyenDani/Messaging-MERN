@@ -9,7 +9,9 @@ const Chat = () => {
   const [selectedUser, setSelectedUser] = useState("");
   const [message, setMessage] = useState("");
   const [chatLogs, setChatLogs] = useState([]);
+  const [searchText, setSearchText] = useState("");
   const { currentUser } = useUser();
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
     fetchUsers();
@@ -17,7 +19,7 @@ const Chat = () => {
 
   useEffect(() => {
     if(selectedUser) {
-      fetchUsers();
+      fetchChatLogs();
     }
   }, [selectedUser]);
 
@@ -30,6 +32,7 @@ const Chat = () => {
     }
   };
 
+  // Load Chat logs
   const fetchChatLogs = async () => {
     try {
       const res = await axios.get(`http://localhost:5001/messages/${selectedUser}`);
@@ -39,6 +42,7 @@ const Chat = () => {
     }
   };
 
+  // Send message
   const handleSend = async (e) => {
     e.preventDefault();
     if (!selectedUser || !message) return;
@@ -56,29 +60,50 @@ const Chat = () => {
     }
   };
 
+  // Search User function
+  useEffect(() => {
+    const filteredUsers = users.filter(user =>
+      user.username.toLowerCase().startsWith(searchText.toLowerCase())
+    );
+    setFilteredUsers(filteredUsers);
+  }, [searchText, users]);
+
+  const handleUserSelect = (userId) => {
+    setSelectedUser(userId);
+    fetchChatLogs();
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.containerHeader}>
           <div className={styles.headerSearch}>
-            <input type="text" placeholder="Search user" onChange={(e) => {
-              const query = e.target.value.toLowerCase();
-              const filteredUsers = users.filter(user =>
-                user.username.toLowerCase().includes(query)
-              );
-              setUsers(filteredUsers);
-            }}></input>
+            <input
+              type="text"
+              placeholder="Search user"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+            />
+            {searchText && (
+              <div className={styles.dropdown}>
+                {filteredUsers.map((user) => (
+                  <div key={user._id} onClick={() => handleUserSelect(user._id)}>
+                    {user.username}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className={styles.headerTitle}>
-            <h2>Header</h2>
+            <h2>{selectedUser ? users.find(u => u._id === selectedUser)?.username : "Header"}</h2>
           </div>
         </div>
         <div className={styles.containerMain}>
           <div className={styles.mainSidenav}>
             <div className={styles.sidenavHistory}>
               <h3>History</h3>
-              {users.map((user) => (
-                <div key={user._id} onClick={() => setSelectedUser(user._id)}>
+              {filteredUsers.map((user) => (
+                <div key={user._id} onClick={() => handleUserSelect(user._id)}>
                   {user.username}
                 </div>
               ))}

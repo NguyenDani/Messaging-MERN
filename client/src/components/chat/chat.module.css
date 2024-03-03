@@ -30,12 +30,34 @@
 
 .headerSearch {
     flex-basis: 30%;
+    position: relative;
 }
 
 .headerSearch input {
     margin: 0;
     width: calc(100% - 5px);
     box-sizing: border-box;
+}
+
+.dropdown {
+    position: absolute; 
+    top: 100%; 
+    left: 0; 
+    width: calc(100% - 5px);; 
+    background-color: white; 
+    border-radius: 5px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+    z-index: 1; 
+    overflow-y: auto; 
+}
+
+.dropdown div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown div:hover {
+    background-color: #eee;
 }
 
 .headerTitle {

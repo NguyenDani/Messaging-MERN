@@ -66,10 +66,10 @@ const Chat = () => {
   // Search User
   useEffect(() => {
     const filteredUsers = users.filter(user =>
-      user.username.toLowerCase().startsWith(searchText.toLowerCase())
+      user.username.toLowerCase().startsWith(searchText.toLowerCase()) && user.username !== username
     );
     setFilteredUsers(filteredUsers);
-  }, [searchText, users]);
+  }, [searchText, users, username]);
 
   const handleUserSelect = (userId) => {
     setSelectedUser(userId);
@@ -121,7 +121,7 @@ const Chat = () => {
             <div className={styles.sidenavInfo}>
               <div className={styles.infoContainer}>
                 <h1>Account</h1>
-                <h2>{username ? username : "No user logged in"}</h2>
+                <h2>{username}</h2>
                 <button onClick={handleLogout}>Logout</button>
               </div>
             </div>

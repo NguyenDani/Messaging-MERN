@@ -16,7 +16,7 @@ const Auth = () => {
 
     const handleAuth = async (e) => {
         e.preventDefault();
-        if (!username || !password) { // Check if username or password is empty
+        if (!username || !password) {
             toast.error("Please provide both username and password!");
             return;
         }
@@ -31,8 +31,8 @@ const Auth = () => {
         } else {
             try {
                 const res = await axios.post('http://localhost:5001/auth/login', { username, password });
-                const { token, user } = res.data;
-                setUser({ token, ...user });
+                const { token, user, id } = res.data;
+                setUser({ token, ...user, id });
                 toast.success("Login successful!");
                 navigate('/chat');
             } catch (error) {

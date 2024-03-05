@@ -12,7 +12,7 @@ const Chat = () => {
   const [chatLogs, setChatLogs] = useState([]);
   const [searchText, setSearchText] = useState("");
   const { user, setUser } = useUser();
-  const { token, username } = user;
+  const { token, username, id } = user;
   const navigate = useNavigate();
   const [filteredUsers, setFilteredUsers] = useState([]);
 
@@ -37,9 +37,11 @@ const Chat = () => {
 
   // Load Chat logs
   const fetchChatLogs = async () => {
+    console.log(selectedUser);
     try {
       const res = await axios.get(`http://localhost:5001/messages/${selectedUser}`);
       setChatLogs(res.data);
+      console.log("Chat recieved");
     } catch (error) {
       console.error("Failed to fetch chat logs");
     }
@@ -48,11 +50,11 @@ const Chat = () => {
   // Send message
   const handleSend = async (e) => {
     e.preventDefault();
+    console.log(user._id);
     if (!selectedUser || !message) return;
-
     try {
       await axios.post("http://localhost:5001/messages", {
-        sender: user.id,
+        sender: user._id,
         receiver: selectedUser,
         content: message,
       });

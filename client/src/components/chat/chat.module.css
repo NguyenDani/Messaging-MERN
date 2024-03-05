@@ -7,8 +7,8 @@
 }
 
 .card {
-    width: 85vw; /* Set the desired width */
-    height: 85vh; /* Set the desired width */
+    width: 85vw;
+    height: 85vh; 
     background-color: #333;
     padding: 20px;
     border-radius: 10px;
@@ -23,8 +23,8 @@
     margin-bottom: 10px;
     border-radius: 10px;
     display: flex;
-    justify-content: space-between; /* Ensures items are at the ends */
-    align-items: center; /* Centers items vertically */
+    justify-content: space-between;
+    align-items: center;
     padding: 0 10px;
 }
 
@@ -69,15 +69,15 @@
 
 .containerMain {
     display: flex;
-    flex: 1; /* Take up the remaining space */
+    flex: 1;
 }
 
 .mainSidenav {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    flex-basis: 30%; /* Adjust as needed */
-    background-color: #549c5a; /* For demonstration */
+    flex-basis: 30%;
+    background-color: #549c5a;
     margin-right: 5px;
 }
 
@@ -105,15 +105,19 @@
 }
 
 .contentLog {
-    flex: 1; /* Takes up all available space */
+    flex: 1;
     flex-basis: 80%;
     margin: 10px 10px 5px 10px;
 }
 
 .contentChat {
-    flex: 1; /* Takes up all available space */
+    flex: 1;
     margin: 5px 10px 10px 10px;
     display: flex;
+}
+
+.contentChat textarea {
+    border-radius: 5px;
 }
 
 .chatMessage {
@@ -128,9 +132,9 @@
     box-sizing: border-box;
     flex: 1;
     margin: 0;
-    word-wrap: break-word; /* Allow words to break onto the next line */
-    overflow-y: auto; /* Enable vertical scrolling */
-    resize: none; /* Prevent resizing */
+    word-wrap: break-word;
+    overflow-y: auto;
+    resize: none;
 }
 
 .contentChat button {

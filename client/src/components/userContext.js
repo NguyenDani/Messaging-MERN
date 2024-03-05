@@ -7,7 +7,11 @@ export const UserProvider = ({ children }) => {
 
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem('user');
-    return storedUser ? JSON.parse(storedUser) : { token: null, username: null };
+    return storedUser ? JSON.parse(storedUser) : { 
+      token: null, 
+      username: null, 
+      id: null
+    };
   });
 
   useEffect(() => {

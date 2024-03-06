@@ -115,7 +115,7 @@ const Chat = () => {
         <div className={styles.containerMain}>
           <div className={styles.mainSidenav}>
             <div className={styles.sidenavHistory}>
-              <h3>Recently Chatted</h3>
+              <h3>List of users</h3>
               {filteredUsers.map((user) => (
                 <div key={user._id} onClick={() => handleUserSelect(user._id)}>
                   {user.username}
@@ -123,7 +123,7 @@ const Chat = () => {
               ))}
             </div>
             <div className={styles.sidenavInfo}>
-              <div className={styles.infoContainer}>
+              <div>
                 <h1>Account Info</h1>
                 <h2>{username}</h2>
                 <button onClick={handleLogout}>Logout</button>

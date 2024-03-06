@@ -37,10 +37,13 @@ const Chat = () => {
 
   // Load Chat logs
   const fetchChatLogs = async () => {
-    console.log(selectedUser);
     try {
       const res = await axios.get(`http://localhost:5001/messages/${selectedUser}`);
-      setChatLogs(res.data);
+      const chatLogsWithUsername = res.data.map(log => ({
+        ...log,
+        senderUsername: users.find(user => user._id === log.sender)?.username
+      }));
+      setChatLogs(chatLogsWithUsername);
       console.log("Chat recieved");
     } catch (error) {
       console.error("Failed to fetch chat logs");
@@ -50,7 +53,6 @@ const Chat = () => {
   // Send message
   const handleSend = async (e) => {
     e.preventDefault();
-    console.log(user._id);
     if (!selectedUser || !message) return;
     try {
       await axios.post("http://localhost:5001/messages", {
@@ -107,13 +109,13 @@ const Chat = () => {
             )}
           </div>
           <div className={styles.headerTitle}>
-            <h2>{selectedUser ? users.find(u => u._id === selectedUser)?.username : "Header"}</h2>
+            <h2>{selectedUser ? users.find(u => u._id === selectedUser)?.username : "Select a user"}</h2>
           </div>
         </div>
         <div className={styles.containerMain}>
           <div className={styles.mainSidenav}>
             <div className={styles.sidenavHistory}>
-              <h3>History</h3>
+              <h3>Recently Chatted</h3>
               {filteredUsers.map((user) => (
                 <div key={user._id} onClick={() => handleUserSelect(user._id)}>
                   {user.username}
@@ -122,7 +124,7 @@ const Chat = () => {
             </div>
             <div className={styles.sidenavInfo}>
               <div className={styles.infoContainer}>
-                <h1>Account</h1>
+                <h1>Account Info</h1>
                 <h2>{username}</h2>
                 <button onClick={handleLogout}>Logout</button>
               </div>
@@ -132,7 +134,8 @@ const Chat = () => {
             <div className={styles.contentLog}>
               {chatLogs.map((log, index) => (
                 <div key={index} className={styles.chatMessage}>
-                  <span className={styles.chatSender}>{log.sender.username}:</span> {log.content}
+                  <h3>{log.senderUsername}</h3>
+                  <span></span> {log.content}
                 </div>
               ))}
             </div>

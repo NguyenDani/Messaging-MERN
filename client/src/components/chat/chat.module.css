@@ -121,11 +121,11 @@
 }
 
 .chatMessage {
-
+    margin: 10px 10px 25px 10px;
 }
 
-.chatSender {
-
+.chatMessage h3 {
+   margin: 0;
 }
 
 .contentChat textarea {

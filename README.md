@@ -18,13 +18,14 @@ To install the Messaging application, follow these steps:
 
 ## Setup
 To setup the Messaging application, follow these steps:
-1. Navigate to root directory: `cd Messaging-MERN`
-2. Install server dependencies: `npm install`
-3. Change the .env file to your configuration `/.env`
-4. Start server: node server/server.js
-5. Navigate to client: `cd client`
-6. Install client dependencies: `npm install`
-7. Start client: `npm start`
+1. Navigate to server directory: `cd Messaging-MERN/server/`
+2. Install server dependencies: `npm install` 
+3. Configure `.env` file
+4. Start server: `node server.js`
+5. Open new terminal
+6. Naviage to client directory: `cd Messaging-MERN/client/`
+7. Install client dependencies: `npm install`
+8. Start client `npm start`
 
 ## Usage
 Once you have start the client and server you will be acle to register and login as a user. Once you have logged in you will be able to search users and send direct messages to said user.

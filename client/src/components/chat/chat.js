@@ -12,7 +12,7 @@ const Chat = () => {
   const [chatLogs, setChatLogs] = useState([]);
   const [searchText, setSearchText] = useState("");
   const { user, setUser } = useUser();
-  const { token, username, id } = user;
+  const { username } = user;
   const navigate = useNavigate();
   const [filteredUsers, setFilteredUsers] = useState([]);
 
@@ -42,9 +42,10 @@ const Chat = () => {
       const chatLogsWithUsername = res.data.map(log => ({
         ...log,
         senderUsername: users.find(user => user._id === log.sender)?.username
-      }));
+      })).filter(log => (log.sender === user._id && log.receiver === selectedUser) || 
+                        (log.sender === selectedUser && log.receiver === user._id));
       setChatLogs(chatLogsWithUsername);
-      console.log("Chat recieved");
+      console.log("Chat received");
     } catch (error) {
       console.error("Failed to fetch chat logs");
     }
